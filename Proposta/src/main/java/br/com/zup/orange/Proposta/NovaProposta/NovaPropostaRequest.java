@@ -8,11 +8,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import br.com.zup.orange.Proposta.Validacoes.UniqueValue;
+import br.com.zup.orange.Proposta.Validacoes.ValidaDocumento;
+
 public class NovaPropostaRequest {
 
 	
 	@NotBlank
 	@ValidaDocumento(message = "Documento Invalido")
+	@UniqueValue(domainClass = Proposta.class, fieldName = "documento")
 	private String documento;
 	
 	@NotBlank

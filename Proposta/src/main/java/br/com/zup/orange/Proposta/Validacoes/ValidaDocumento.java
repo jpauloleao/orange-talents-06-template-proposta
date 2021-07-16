@@ -1,4 +1,4 @@
-package br.com.zup.orange.Proposta.NovaProposta;
+package br.com.zup.orange.Proposta.Validacoes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
