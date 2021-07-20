@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import feign.FeignException;
+
 
 
 @RestControllerAdvice
@@ -51,5 +53,15 @@ public class ValidationErrorHandler {
 		ValidationErrorsOutputDto validationErrors = new ValidationErrorsOutputDto(messageSource);
 		validationErrors.addError(exception.getMessage());
 		return validationErrors;
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(FeignException.class)
+	public ValidationErrorsOutputDto erroFeign(FeignException exception) {
+
+		ValidationErrorsOutputDto va = new ValidationErrorsOutputDto(messageSource);
+		va.addError(exception.getMessage());
+
+		return va;
 	}
 }
