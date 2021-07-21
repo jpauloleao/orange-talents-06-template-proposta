@@ -82,6 +82,18 @@ public class Proposta {
 	public String getNome() {
 		return nome;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public EstadoPropostaEnum getEstadoProposta() {
+		return estadoProposta;
+	}
 
 	public void atualizaStatusProposta(EstadoPropostaEnum estadoProposta) {
 		this.estadoProposta = estadoProposta;

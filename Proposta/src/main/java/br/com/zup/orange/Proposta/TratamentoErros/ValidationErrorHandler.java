@@ -2,9 +2,7 @@ package br.com.zup.orange.Proposta.TratamentoErros;
 
 import java.util.List;
 
-import javax.validation.ValidationException;
 
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.beans.factory.annotation.Autowired;
