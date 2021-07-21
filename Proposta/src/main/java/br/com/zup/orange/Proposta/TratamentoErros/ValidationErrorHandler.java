@@ -55,7 +55,7 @@ public class ValidationErrorHandler {
 		return validationErrors;
 	}
 	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(FeignException.class)
 	public ValidationErrorsOutputDto erroFeign(FeignException exception) {
 
