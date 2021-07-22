@@ -1,6 +1,8 @@
 version: '3'
 services:
 
+
+
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
     environment:
@@ -133,6 +135,35 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
+      
+  postgresProposta:
+    image:  'postgres:alpine'
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: postgres
+       
+  proposta:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: joao/proposta
+    container_name: proposta
+    ports:
+      - 8081:8080
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:postgresql://postgresProposta:5432/proposta
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - mysql
+      
 
 volumes:
   grafana-volume:
