@@ -30,7 +30,6 @@ public class Cartao {
 	@OneToOne
 	private Proposta proposta;
 
-	
 	@OneToMany(mappedBy = "cartao")
 	private Set<Biometria> biometrias = new HashSet<>();
 
@@ -47,15 +46,14 @@ public class Cartao {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void addBiometria(@Valid Biometria biometria) {
-        this.biometrias.add(biometria);
-    }
+		this.biometrias.add(biometria);
+	}
 
 	@Override
 	public String toString() {
 		return "Cartao [numero=" + numero + ", proposta=" + proposta + ", biometrias=" + biometrias + "]";
 	}
-	
-	
+
 }
