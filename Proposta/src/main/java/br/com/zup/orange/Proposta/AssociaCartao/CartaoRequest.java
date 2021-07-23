@@ -14,7 +14,6 @@ public class CartaoRequest {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public String getId() {
 		return id;
 	}
@@ -22,6 +21,5 @@ public class CartaoRequest {
 	public String getIdProposta() {
 		return idProposta;
 	}
-	
 
 }

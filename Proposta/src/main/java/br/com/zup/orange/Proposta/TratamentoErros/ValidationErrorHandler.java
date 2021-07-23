@@ -2,7 +2,6 @@ package br.com.zup.orange.Proposta.TratamentoErros;
 
 import java.util.List;
 
-
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import feign.FeignException;
-
-
 
 @RestControllerAdvice
 public class ValidationErrorHandler {
@@ -52,7 +49,7 @@ public class ValidationErrorHandler {
 		validationErrors.addError(exception.getMessage());
 		return validationErrors;
 	}
-	
+
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(FeignException.class)
 	public ValidationErrorsOutputDto erroFeign(FeignException exception) {
