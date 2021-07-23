@@ -63,7 +63,6 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
-
   analise:
     image: 'zupacademy/analise-financeira'
     ports:
