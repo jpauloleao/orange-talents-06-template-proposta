@@ -61,7 +61,6 @@ public class BloqueioCartaoController {
 		String bloqueioCartaoResponse;
 		try {
 			bloqueioCartaoResponse = clienteCartao.notificaBloqueio(identificador, resp);
-			System.out.println(bloqueioCartaoResponse);
 		} catch (FeignException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Não foi possivel bloquear cartão", e);
 		}

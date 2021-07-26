@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import br.com.zup.orange.Proposta.AvisoViagemCartao.AvisoViagemRequest;
 import br.com.zup.orange.Proposta.BloqueioCartao.BloqueioCartaoRequest;
 import br.com.zup.orange.Proposta.NovaProposta.SolicitacaoAnaliseRequest;
 
@@ -19,4 +20,7 @@ public interface ClienteCartao {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/bloqueios", consumes = "application/json")
 	String notificaBloqueio(@PathVariable String id, BloqueioCartaoRequest request);
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{id}/avisos",consumes = "application/json")
+	String notificaViagemFeign(@PathVariable String id, AvisoViagemRequest request);
 }
