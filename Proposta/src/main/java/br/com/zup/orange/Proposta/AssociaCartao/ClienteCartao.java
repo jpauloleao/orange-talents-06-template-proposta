@@ -19,7 +19,7 @@ public interface ClienteCartao {
 	CartaoRequest solicitaNumeroCartao(@RequestBody SolicitacaoAnaliseRequest request);
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/bloqueios", consumes = "application/json")
-	String notificaBloqueio(@PathVariable String id, BloqueioCartaoRequest request);
+	String notificaBloqueioFeign(@PathVariable String id, BloqueioCartaoRequest request);
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/avisos",consumes = "application/json")
 	String notificaViagemFeign(@PathVariable String id, AvisoViagemRequest request);

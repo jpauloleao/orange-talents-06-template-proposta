@@ -15,7 +15,7 @@ public class BloqueioCartaoRequest {
 	public BloqueioCartaoRequest() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public String getSistemaResponsavel() {
 		return sistemaResponsavel;
 	}

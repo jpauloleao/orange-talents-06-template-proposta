@@ -19,21 +19,21 @@ public class AvisoViagemRequest {
 	@NotNull
 	@Future
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate terminoViagem;
+	private LocalDate validoAte;
 
-	public AvisoViagemRequest(@NotBlank String destino, @NotNull @Future LocalDate terminoViagem) {
+	public AvisoViagemRequest(@NotBlank String destino, @NotNull @Future LocalDate validoAte) {
 		super();
 		this.destino = destino;
-		this.terminoViagem = terminoViagem;
+		this.validoAte = validoAte;
 
 	}
 
 	public AvisoViagem toModel(@Valid Cartao cartao, @NotBlank String ip, @NotBlank String userAgent) {
-		return new AvisoViagem(destino, terminoViagem, ip, userAgent, cartao);
+		return new AvisoViagem(destino, validoAte, ip, userAgent, cartao);
 	}
 
 	public LocalDate getTerminoViagem() {
-		return terminoViagem;
+		return validoAte;
 	}
 
 	public String getDestino() {

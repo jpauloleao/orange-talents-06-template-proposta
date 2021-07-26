@@ -50,7 +50,7 @@ public class AvisoViagemController {
 		AvisoViagem avisoViagem = avisoViagemRequest.toModel(cartao, ip, userAgent);
 
 		String resultado = clienteCartao.notificaViagemFeign(cartao.getNumero(), avisoViagemRequest);
-				
+						
 		extracted(avisoViagem, resultado);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Cartão Notificado Sobre Viagem");
