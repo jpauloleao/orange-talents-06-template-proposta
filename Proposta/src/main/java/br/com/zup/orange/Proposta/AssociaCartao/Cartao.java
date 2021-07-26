@@ -16,7 +16,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zup.orange.Proposta.BloqueioCartao.BloqueiaCartao;
 import br.com.zup.orange.Proposta.CriarBiometria.Biometria;
@@ -85,7 +87,7 @@ public class Cartao {
 		}
 		return this.statusCartao.equals(CartaoStatus.BLOQUEADO);
 	}
-	
+
 	
 
 	
