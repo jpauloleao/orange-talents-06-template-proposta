@@ -25,6 +25,13 @@ public class AssociaPropostaCartao {
 	@Autowired
 	private PropostaRepository propostaRepository;
 	
+	
+	@Autowired
+	public AssociaPropostaCartao(ClienteCartao clienteCartao, PropostaRepository propostaRepository) {
+		this.clienteCartao = clienteCartao;
+		this.propostaRepository = propostaRepository;
+	}
+
 	private static final Logger log = LoggerFactory.getLogger(AssociaPropostaCartao.class);
 
 	@Scheduled(fixedDelayString = "${periodicidade.associa-proposta-cartao}")
@@ -35,8 +42,8 @@ public class AssociaPropostaCartao {
 		
 		for (Proposta proposta : propostas) {
 			CartaoRequest cartaoRequest = clienteCartao.solicitaNumeroCartao(new SolicitacaoAnaliseRequest(proposta));
-			
-			Assert.isNull(cartaoRequest, "A API cliente não devolveu o cartão");
+			System.out.println(cartaoRequest.toString());
+			Assert.notNull(cartaoRequest, "A API cliente não devolveu o cartão");
 			
 			proposta.associaCartao(cartaoRequest);
 			

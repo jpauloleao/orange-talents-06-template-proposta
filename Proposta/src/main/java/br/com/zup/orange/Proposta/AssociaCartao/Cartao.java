@@ -43,7 +43,6 @@ public class Cartao {
 	private CartaoStatus statusCartao = CartaoStatus.DESBLOQUEADO;
 
 	@OneToOne(mappedBy = "cartao", cascade = CascadeType.MERGE)
-	@NotNull
 	private BloqueiaCartao bloqueiaCartao;
 
 	@Deprecated
@@ -58,6 +57,10 @@ public class Cartao {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public String getNumero() {
+		return numero;
 	}
 
 	public void addBiometria(@Valid Biometria biometria) {
@@ -82,6 +85,8 @@ public class Cartao {
 		}
 		return this.statusCartao.equals(CartaoStatus.BLOQUEADO);
 	}
+	
+	
 
 	
 }

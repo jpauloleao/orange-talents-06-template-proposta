@@ -22,4 +22,11 @@ public class CartaoRequest {
 		return idProposta;
 	}
 
+	@Override
+	public String toString() {
+		return "CartaoRequest [id=" + id + ", idProposta=" + idProposta + "]";
+	}
+	
+	
+
 }
