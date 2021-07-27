@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zup.orange.Proposta.AssociaCartao.Cartao;
-import br.com.zup.orange.Proposta.AssociaCartao.ClienteCartao;
+import br.com.zup.orange.Proposta.Integracao.ClienteCartaoFeign;
 import feign.FeignException;
 
 @RestController
@@ -28,7 +28,7 @@ public class BloqueioCartaoController {
 	EntityManager em;
 
 	@Autowired
-	ClienteCartao clienteCartao;
+	ClienteCartaoFeign clienteCartaoFeign;
 
 	@PostMapping("/{id}/bloqueiaCartao")
 	@Transactional
@@ -60,7 +60,7 @@ public class BloqueioCartaoController {
 	private String apiExternaNotificaBloqueio(String identificador, BloqueioCartaoRequest resp) {
 		String bloqueioCartaoResponse;
 		try {
-			bloqueioCartaoResponse = clienteCartao.notificaBloqueioFeign(identificador, resp);
+			bloqueioCartaoResponse = clienteCartaoFeign.notificaBloqueioFeign(identificador, resp);
 		} catch (FeignException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Não foi possivel bloquear cartão", e);
 		}

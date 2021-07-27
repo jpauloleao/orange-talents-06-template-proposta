@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import br.com.zup.orange.Proposta.Integracao.ClienteCartaoFeign;
 import br.com.zup.orange.Proposta.NovaProposta.EstadoPropostaEnum;
 import br.com.zup.orange.Proposta.NovaProposta.Proposta;
 import br.com.zup.orange.Proposta.NovaProposta.PropostaRepository;
@@ -20,18 +21,11 @@ import org.slf4j.LoggerFactory;
 public class AssociaPropostaCartao {
 
 	@Autowired
-	private ClienteCartao clienteCartao;
+	private ClienteCartaoFeign clienteCartaoFeign;
 	
 	@Autowired
 	private PropostaRepository propostaRepository;
 	
-	
-	@Autowired
-	public AssociaPropostaCartao(ClienteCartao clienteCartao, PropostaRepository propostaRepository) {
-		this.clienteCartao = clienteCartao;
-		this.propostaRepository = propostaRepository;
-	}
-
 	private static final Logger log = LoggerFactory.getLogger(AssociaPropostaCartao.class);
 
 	@Scheduled(fixedDelayString = "${periodicidade.associa-proposta-cartao}")
@@ -41,7 +35,7 @@ public class AssociaPropostaCartao {
 		log.info("Propostas para serem avaliadas: {}",propostas.size());
 		
 		for (Proposta proposta : propostas) {
-			CartaoRequest cartaoRequest = clienteCartao.solicitaNumeroCartao(new SolicitacaoAnaliseRequest(proposta));
+			CartaoRequest cartaoRequest = clienteCartaoFeign.solicitaNumeroCartao(new SolicitacaoAnaliseRequest(proposta));
 			System.out.println(cartaoRequest.toString());
 			Assert.notNull(cartaoRequest, "A API cliente não devolveu o cartão");
 			

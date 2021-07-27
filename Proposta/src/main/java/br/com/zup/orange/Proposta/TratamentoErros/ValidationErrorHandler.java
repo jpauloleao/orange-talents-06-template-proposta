@@ -2,6 +2,7 @@ package br.com.zup.orange.Proposta.TratamentoErros;
 
 import java.util.List;
 
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,19 @@ public class ValidationErrorHandler {
 
 		return va.buildValidationErrors(erros, fieldErrors);
 	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(BindException.class)
+	public ValidationErrorsOutputDto errosBind(BindException exception) {
+
+		List<ObjectError> erros = exception.getBindingResult().getGlobalErrors();
+		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+
+		ValidationErrorsOutputDto va = new ValidationErrorsOutputDto(messageSource);
+
+		return va.buildValidationErrors(erros, fieldErrors);
+	}
+	
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NullPointerException.class)

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zup.orange.Proposta.AssociaCartao.Cartao;
-import br.com.zup.orange.Proposta.AssociaCartao.ClienteCartao;
+import br.com.zup.orange.Proposta.Integracao.ClienteCartaoFeign;
 import feign.FeignException.FeignClientException;
 
 @RestController
@@ -30,7 +30,7 @@ public class AvisoViagemController {
 	EntityManager em;
 
 	@Autowired
-	ClienteCartao clienteCartao;
+	ClienteCartaoFeign clienteCartaoFeign;
 
 	@Transactional
 	@PostMapping("/{id}/viagem")
@@ -49,7 +49,7 @@ public class AvisoViagemController {
 
 		AvisoViagem avisoViagem = avisoViagemRequest.toModel(cartao, ip, userAgent);
 
-		String resultado = clienteCartao.notificaViagemFeign(cartao.getNumero(), avisoViagemRequest);
+		String resultado = clienteCartaoFeign.notificaViagemFeign(cartao.getNumero(), avisoViagemRequest);
 						
 		extracted(avisoViagem, resultado);
 		

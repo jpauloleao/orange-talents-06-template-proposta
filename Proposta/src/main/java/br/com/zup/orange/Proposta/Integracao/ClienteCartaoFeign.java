@@ -1,4 +1,4 @@
-package br.com.zup.orange.Proposta.AssociaCartao;
+package br.com.zup.orange.Proposta.Integracao;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import br.com.zup.orange.Proposta.AssociaCartao.CartaoRequest;
+import br.com.zup.orange.Proposta.AssociaCartaoCarteira.CarteiraDigitalRequest;
+import br.com.zup.orange.Proposta.AssociaCartaoCarteira.ResultadoCarteira;
 import br.com.zup.orange.Proposta.AvisoViagemCartao.AvisoViagemRequest;
 import br.com.zup.orange.Proposta.BloqueioCartao.BloqueioCartaoRequest;
 import br.com.zup.orange.Proposta.NovaProposta.SolicitacaoAnaliseRequest;
 
-@FeignClient(url = "${clienteCartao.url}", name = "cartoes")
-public interface ClienteCartao {
+@FeignClient(url = "${clienteCartaoFeign.url}", name = "cartoes")
+public interface ClienteCartaoFeign {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	CartaoRequest solicitaNumeroCartao(@RequestBody SolicitacaoAnaliseRequest request);
@@ -23,4 +26,7 @@ public interface ClienteCartao {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/avisos",consumes = "application/json")
 	String notificaViagemFeign(@PathVariable String id, AvisoViagemRequest request);
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{id}/carteiras",consumes = "application/json")
+	ResultadoCarteira associaCarteira(@PathVariable String id, @RequestBody CarteiraDigitalRequest request);
 }

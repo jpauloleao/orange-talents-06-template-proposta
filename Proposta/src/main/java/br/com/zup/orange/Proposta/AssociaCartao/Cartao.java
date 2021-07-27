@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.zup.orange.Proposta.AssociaCartaoCarteira.CarteiraDigital;
+import br.com.zup.orange.Proposta.AssociaCartaoCarteira.TiposCarteira;
 import br.com.zup.orange.Proposta.BloqueioCartao.BloqueiaCartao;
 import br.com.zup.orange.Proposta.CriarBiometria.Biometria;
 import br.com.zup.orange.Proposta.NovaProposta.Proposta;
@@ -47,6 +49,9 @@ public class Cartao {
 	@OneToOne(mappedBy = "cartao", cascade = CascadeType.MERGE)
 	private BloqueiaCartao bloqueiaCartao;
 
+	@OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private Set<CarteiraDigital> carteiras = new HashSet<>();
+	
 	@Deprecated
 	public Cartao() {
 
@@ -88,7 +93,16 @@ public class Cartao {
 		return this.statusCartao.equals(CartaoStatus.BLOQUEADO);
 	}
 
-	
+    public void adicionaCarteira(CarteiraDigital carteira) {
+        carteiras.add(carteira);
+    }
 
-	
+	public void verificaCartaoAssociadoCarteira(TiposCarteira novaCarteira) {
+
+        for (CarteiraDigital carteira : carteiras) {
+            if (carteira.getCarteira().equals(novaCarteira)) {
+            	throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Cartão já está associado a essa carteira");
+            }
+        }
+    }
 }
