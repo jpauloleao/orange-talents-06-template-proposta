@@ -7,6 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import br.com.zup.orange.Proposta.AssociaCartao.Cartao;
 
 public class CarteiraDigitalRequest {
@@ -16,17 +19,20 @@ public class CarteiraDigitalRequest {
 	private String email;
 
 	@Enumerated(EnumType.STRING)
-	@NotNull
 	private TiposCarteira carteira;
 
-	public CarteiraDigitalRequest(@Email @NotBlank String email, @NotNull TiposCarteira carteira) {
+	@JsonCreator(mode = Mode.PROPERTIES)
+	public CarteiraDigitalRequest(@Email @NotBlank String email) {
 		super();
 		this.email = email;
-		this.carteira = carteira;
 	}
 
 	public TiposCarteira getCarteira() {
 		return carteira;
+	}
+
+	public void setCarteira(TiposCarteira carteira) {
+		this.carteira = carteira;
 	}
 
 	public CarteiraDigital toModel(@Valid Cartao cartao) { // TODO Auto-generated

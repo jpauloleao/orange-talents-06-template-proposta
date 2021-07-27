@@ -17,20 +17,20 @@ import br.com.zup.orange.Proposta.AssociaCartao.Cartao;
 public class CarteiraDigital {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@Email
-    @NotBlank
-    private String email;
+	@NotBlank
+	private String email;
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
-	private TiposCarteira carteira; 
-	
+	private TiposCarteira carteira;
+
 	@ManyToOne
 	@NotNull
-    private Cartao cartao;
+	private Cartao cartao;
 
 	public CarteiraDigital(@Email @NotBlank String email, @NotNull TiposCarteira carteira, @NotNull Cartao cartao) {
 		super();
@@ -38,18 +38,18 @@ public class CarteiraDigital {
 		this.carteira = carteira;
 		this.cartao = cartao;
 	}
-	
+
 	@Deprecated
 	public CarteiraDigital() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public TiposCarteira getCarteira() {
 		return carteira;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 }

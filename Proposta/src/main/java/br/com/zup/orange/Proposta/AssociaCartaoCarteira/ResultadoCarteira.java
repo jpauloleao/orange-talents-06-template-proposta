@@ -10,6 +10,7 @@ public class ResultadoCarteira {
 	@NotBlank
 	private String id;
 	
+	
 	public ResultadoCarteira(@NotBlank String resultado, @NotBlank String id) {
 		super();
 		this.resultado = resultado;

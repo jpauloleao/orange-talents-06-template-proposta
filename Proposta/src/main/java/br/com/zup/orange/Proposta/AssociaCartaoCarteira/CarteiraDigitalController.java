@@ -29,18 +29,18 @@ public class CarteiraDigitalController {
 	@Autowired
 	ClienteCartaoFeign clienteCartaoFeign;
 
-	@PostMapping("/{id}/associaCarteira")
+	@PostMapping("/{id}/associaCarteiraPaypal")
 	@Transactional
-	public ResponseEntity<?> associaCarteiraCartao(@PathVariable Long id,
+	public ResponseEntity<?> associaCartaoCarteiraPaypal(@PathVariable Long id,
 			@Valid @RequestBody CarteiraDigitalRequest carteiraRequest, UriComponentsBuilder builder) {
 
 		Cartao cartao = em.find(Cartao.class, id);
+		carteiraRequest.setCarteira(TiposCarteira.PAYPAL);
 
 		// 404
 		if (cartao == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cartão Inválido");
 		}
-
 		// 422
 		cartao.verificaCartaoAssociadoCarteira(carteiraRequest.getCarteira());
 
@@ -52,11 +52,36 @@ public class CarteiraDigitalController {
 		
 		return ResponseEntity.created(builder.path("/cartao/carteira/{id}").buildAndExpand(carteira.getId()).toUri()).build();
 	}
+	
+	@PostMapping("/{id}/associaCarteiraSamsung")
+	@Transactional
+	public ResponseEntity<?> associaCartaoCarteiraSamsung(@PathVariable Long id,
+			@Valid @RequestBody CarteiraDigitalRequest carteiraRequest, UriComponentsBuilder builder) {
+
+		Cartao cartao = em.find(Cartao.class, id);
+		carteiraRequest.setCarteira(TiposCarteira.SAMSUNG_PAY);
+
+		// 404
+		if (cartao == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cartão Inválido");
+		}
+		// 422
+		cartao.verificaCartaoAssociadoCarteira(carteiraRequest.getCarteira());
+
+		CarteiraDigital carteira = new CarteiraDigital();
+		if (verificaResposta(cartao, carteiraRequest).getResultado().equals("ASSOCIADA")) {
+			carteira = carteiraRequest.toModel(cartao);
+			em.persist(carteira);	
+		}
+		
+		return ResponseEntity.created(builder.path("/cartao/carteira/{id}").buildAndExpand(carteira.getId()).toUri()).build();
+	}
+	
+	
 
 	private ResultadoCarteira verificaResposta(@Valid Cartao cartao, @Valid CarteiraDigitalRequest carteiraRequest) {
 		try {
 			ResultadoCarteira response = clienteCartaoFeign.associaCarteira(cartao.getNumero(), carteiraRequest);
-			System.out.println(response.getResultado());
 			return response;
 
 		} catch (FeignClientException exception) {
