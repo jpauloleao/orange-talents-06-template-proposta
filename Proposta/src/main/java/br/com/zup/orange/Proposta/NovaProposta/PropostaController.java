@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zup.orange.Proposta.Integracao.Integracao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @RequestMapping("/proposta")
 @RestController
@@ -28,36 +30,38 @@ public class PropostaController {
 
 	@Autowired
 	Integracao integracao;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PropostaController.class);
+
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest propostaRequest,
 			UriComponentsBuilder builder) {
-		
+
+
 		Proposta proposta = propostaRequest.toModel();
 		em.persist(proposta);
 
 		ResultadoAnaliseDto propostaAnalisada = integracao.solicitaAnalise(new SolicitacaoAnaliseRequest(proposta));
-		
-		//Atualiza proposta com Status Proposta definido
+
+		// Atualiza proposta com Status Proposta definido
 		proposta.atualizaStatusProposta(propostaAnalisada.getEstadoAnalise().getEstadoProposta());
 		em.merge(proposta);
-		
-		log.info("Proposta cadastrada: {} ",proposta.toString());
-		
+
+		log.info("Proposta cadastrada: {} ", proposta.toString());
+
 		return ResponseEntity.created(builder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri()).build();
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> acompanhamentoProposta(@PathVariable Long id){
+	public ResponseEntity<?> acompanhamentoProposta(@PathVariable Long id) {
 		Proposta proposta = em.find(Proposta.class, id);
 
-		if(proposta == null) {
+		if (proposta == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok(new PropostaResponse(proposta));
 	}
 
