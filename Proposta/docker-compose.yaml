@@ -111,6 +111,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
+     - ./prometheus.yml:/etc/prometheus/prometheus.yml
      - prometheus-volume:/etc/prometheus/
     network_mode: bridge
     ports:
@@ -143,10 +144,10 @@ services:
       - 5433:5432
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: postgres123
       POSTGRES_DB: postgres
       POSTGRES_HOST: postgres
-       
+
   proposta:
     build:
       dockerfile: Dockerfile
@@ -154,12 +155,17 @@ services:
     image: joao/proposta
     container_name: proposta
     ports:
-      - 8081:8080
+      - 8081:8081
     environment:
-      SPRING.DATASOURCE.URL: jdbc:postgresql://postgresProposta:5433/proposta
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      DATABASE_URL: jdbc:postgresql://postgresProposta:5432/proposta
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres123
       SPRING_PROFILES_ACTIVE: prod
+      INTEGRACAO_URL: http://analise:9999/api/solicitacao
+      CLIENTECARTAOFEIGN_URL: http://contas:8888/api/cartoes
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     depends_on:
       - postgresProposta
       
