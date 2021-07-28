@@ -1,6 +1,7 @@
 package br.com.zup.orange.Proposta.NovaProposta;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 import br.com.zup.orange.Proposta.AssociaCartao.Cartao;
@@ -22,7 +25,7 @@ import br.com.zup.orange.Proposta.AssociaCartao.CartaoRequest;
 
 @Entity
 public class Proposta {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -99,9 +102,9 @@ public class Proposta {
 		this.estadoProposta = estadoProposta;
 	}
 
-	
 	public void associaCartao(CartaoRequest cartao) {
 		this.cartao = new Cartao(this, cartao.getId());
 	}
+	
 
 }

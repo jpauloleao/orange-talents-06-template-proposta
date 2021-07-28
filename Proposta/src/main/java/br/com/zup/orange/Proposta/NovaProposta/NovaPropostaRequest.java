@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.zup.orange.Proposta.Validacoes.UniqueValue;
 import br.com.zup.orange.Proposta.Validacoes.ValidaDocumento;
 
@@ -46,7 +48,12 @@ public class NovaPropostaRequest {
 	}
 
 	public Proposta toModel() {
-		return new Proposta(documento, email, nome, endereco, salario);
+		
+		return new Proposta(criptografa(documento), email, nome, endereco, salario);
+	}
+	
+	public String criptografa(String valor) {
+		return new BCryptPasswordEncoder(16).encode(valor);
 	}
 	
 }

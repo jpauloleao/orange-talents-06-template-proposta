@@ -22,6 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .antMatchers(HttpMethod.GET, "/cartao/*").hasAuthority("SCOPE_escopo")
                         .antMatchers(HttpMethod.POST, "/cartao/*").hasAuthority("SCOPE_escopo")
                         .antMatchers(HttpMethod.POST, "/proposta/*").hasAuthority("SCOPE_escopo")
+                        .antMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
                         .antMatchers(HttpMethod.GET, "/actuator/*").permitAll()
                         .anyRequest().authenticated()
                         
